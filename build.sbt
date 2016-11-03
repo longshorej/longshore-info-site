@@ -40,3 +40,23 @@ scalacOptions ++= Vector(
   "-language:implicitConversions",
   "-unchecked"
 )
+
+packAutoSettings
+
+lazy val bootstrap = TaskKey[Unit]("bootstrap", "Bootstraps the server")
+
+lazy val deploy = TaskKey[Unit]("deploy", "Deploys this site")
+
+bootstrap := {
+  Process("fab" :: "-k" :: "-f" :: "script/fabfile.py" :: "bootstrap" :: Nil) !
+}
+
+deploy <<= Def.taskDyn {
+  for {
+    _ <-  clean   in Compile
+    a <- (compile in Compile).taskValue
+    p <- (pack    in Compile).taskValue
+  } yield {
+    Process("fab" :: "-k" :: "-f" :: "script/fabfile.py" :: "deploy:" + p.getAbsolutePath :: Nil) !
+  }
+}

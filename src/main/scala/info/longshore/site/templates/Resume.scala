@@ -2,7 +2,7 @@ package info.longshore.site.templates
 
 import info.longshore.site.libs.compressCss
 import scalatags.Text.all._
-import scalatags.Text.tags2.{title => titleTag, style => styleTag}
+import scalatags.Text.tags2.{ title => titleTag, style => styleTag }
 
 object Resume {
   def apply() = html(
@@ -14,7 +14,7 @@ object Resume {
         content := 
           "scala,akka,spray,functional programming," +
           "event sourcing,java,typescript,sql,php,less," +
-          "html,javascript,css,bash,pupet,linux,docker"
+          "html,javascript,css,bash,pupet,linux,docker,sbt"
       ),
       titleTag("Jason Longshore"),
       styleTag(`type` := "text/css", raw(compressCss(cssText)))
@@ -24,23 +24,22 @@ object Resume {
         div(`class` := "row",
           div(`class` := "col", id := "personal",
             h1(id := "name", "Jason Longshore"),
-            p(id := "job-title", "Scala Software Developer")
+            p(id := "job-title", "Software Developer")
           ),
           div(`class` := "col", id := "contact",
-            a(href:="mailto:longshorej@gmail.com", "longshorej@gmail.com"),
-            br,
-            a(href:="https://github.com/longshorej", "GitHub"),
-            br,
-            a(href:="tel:630-706-1287", "630-706-1287"),
-            br,
-            "Chicago, IL, USA"
+            div(id := "email", a(href:="mailto:longshorej@gmail.com", "longshorej@gmail.com")),
+            div(id := "github", a(href:="https://github.com/longshorej", "longshorej @ GitHub")),
+            //div(id := "phone", a(href :="tel:630-706-1287", "630-706-1287")),
+            div(id := "location", "Chicago, IL, USA")
           )
         ),
         div(`class` := "row",
           p(id := "tag", `class` := "bordered",
             "I'm a software developer who is enthusiastic about " +
             "functional programming and immutable system design. " +
-            "Let's build something that works."
+            "Software is changing the landscape of the world and yesterday's techniques " +
+            "will not meet tomorrow's challenges. By embracing new methodologies we can " +
+            "create truly robust technology that will scale and react to the demands of the future."
           )
         ),
         div(`class` := "row",
@@ -54,7 +53,14 @@ object Resume {
               ul(
                 li(span("Designed and implemented a health record management system using modern technologies–Akka HTTP, Event Sourcing, and React.JS.")),
                 li(span("Overhauled legacy systems to interface with services using HTTP APIs.")),
+                li(
+                  span(
+                    "Worked as lead developer of a small team to manage the development and maintenance of an " +
+                    "enterprise system that powered hundreds of websites."
+                  )
+                ),
                 li(span("Deployed and monitored a fleet of servers with tools such as Puppet and Docker.")),
+                li(span("Worked to ensure compliance with HIPAA-related encryption regulations.")),
                 li(span("Developed iOS and Java apps to collect on-site medical records during blood draws.")),
                 li(span("Implemented code review and automated testing processes.")),
                 li(span("Created tools to simplify internal development and deployment of applications."))
@@ -71,14 +77,19 @@ object Resume {
   
             div(id := "keywords", `class` := "section",
               h2(`class` := "title", "Keywords"),
-              div(id := "keywords-text",
-                "Scala, Akka, Spray, FP, Java",
-                br,
-                "TypeScript, SQL, PHP, LESS",
-                br,
-                "HTML, JavaScript, CSS",
-                br,
-                "Bash, Puppet, Linux, Docker"
+              div(`class` := "keywords-text",
+                div("Scala, Akka, Spray, FP, SBT"),
+                div("Java, TypeScript, SQL, PHP, LESS"),
+                div("React, HTML, JavaScript, CSS"),
+                div("Bash, Puppet, Linux, Docker")
+              )
+            ),
+
+            div(id := "interests", `class` := "section",
+              h2(`class` := "title", "Interests"),
+              div(`class` := "keywords-text",
+                div("Functional Programming, UNIX Philosophy"),
+                div("PC Gaming, DIY, Family")
               )
             )
           )
@@ -99,6 +110,7 @@ object Resume {
         color: #333;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: 11pt;
+        line-height: 1.5em;
       }
 
       a, a:visited {
@@ -131,16 +143,15 @@ object Resume {
 
       #contact {
         text-align: right;
-        margin-top: 10px;
       }
 
       #resume {
         width: 600px;
-        margin: 30px auto;
+        margin: 20px auto;
       }
 
       #job-title {
-        font-size: 0.9em;
+        font-size: 1.1em;
         font-style: italic;
         padding-left: 50px;
         margin: 0 0 20px 0;
@@ -183,9 +194,10 @@ object Resume {
         color: #333;
       }
 
-      #keywords-text {
+      .keywords-text {
         text-align: center;
         font-size: 0.9em;
+        line-height: 1.5em;
       }
 
       #tag {
@@ -193,7 +205,7 @@ object Resume {
         margin-top: 20px;
       }
 
-      @media (max-width: 599px) {
+      @media screen and (max-width: 599px) {
         #resume {
           width: 100%;
         }
@@ -218,6 +230,20 @@ object Resume {
 
         #job-title {
           padding: 0;
+        }
+      }
+
+      @media print {
+        body {
+          margin: 0.75in 0.75in;
+        }
+
+        #resume {
+          width: 100%;
+        }
+
+        #tag {
+          margin: 100px 0;
         }
       }
     """
