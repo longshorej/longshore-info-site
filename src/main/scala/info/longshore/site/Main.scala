@@ -16,7 +16,7 @@ object Main {
 
     val port = Try(args(0).toInt).getOrElse(8080)
     val resume = templates.Resume()
-    val route = pathEndOrSingleSlash(complete(resume))
+    val route = pathEndOrSingleSlash(encodeResponse(complete(resume)))
 
     println("Starting server on port: " + port)
 

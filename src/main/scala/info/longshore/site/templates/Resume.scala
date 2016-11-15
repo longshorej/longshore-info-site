@@ -8,6 +8,7 @@ object Resume {
   def apply() = html(
     head(
       meta(charset := "utf-8"),
+      meta(name := "viewport", content := "width=device-width, initial-scale=1.0"),
       meta(name := "author", content := "Jason Longshore"),
       meta(name := "description", content := "Jason Longshore is an experienced Scala developer"),
       meta(name := "keywords",
@@ -205,13 +206,10 @@ object Resume {
         margin-top: 20px;
       }
 
-      @media screen and (max-width: 599px) {
+      @media only screen and (max-width: 599px) {
         #resume {
-          width: 100%;
-        }
-
-        body {
-          padding: 20px;
+          width: 96%;
+          overflow-x: hidden;
         }
 
         .col {
