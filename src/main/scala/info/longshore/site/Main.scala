@@ -16,7 +16,7 @@ object Main {
     implicit val marshaller = scalatagsMarshaller()
 
     val port = Try(args(0).toInt).getOrElse(8080)
-    val resume = templates.Resume()
+    val resume = templates.resume()
 
     val home = System.getProperty("user.home")
 

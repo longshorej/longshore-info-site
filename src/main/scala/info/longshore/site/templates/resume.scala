@@ -4,7 +4,7 @@ import info.longshore.site.libs.compressCss
 import scalatags.Text.all._
 import scalatags.Text.tags2.{ title => titleTag, style => styleTag }
 
-object Resume {
+object resume {
   def apply() = html(
     head(
       meta(charset := "utf-8"),
@@ -21,6 +21,7 @@ object Resume {
       styleTag(`type` := "text/css", raw(compressCss(cssText)))
     ),
     body(
+      googleAnalytics("UA-88160200-1"),
       div(id := "resume",
         div(`class` := "row",
           div(`class` := "col", id := "personal",

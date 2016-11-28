@@ -8,6 +8,8 @@ organization := "info.longshore"
 
 val akkaHttpVersion = "3.0.0-RC1"
 
+val apacheCommonsVersion = "3.4"
+
 val scalatagsVersion = "0.6.0"
 
 val yuiCompressorVersion = "2.4.8"
@@ -16,7 +18,8 @@ libraryDependencies ++= Vector(
   "com.lihaoyi" %% "scalatags" % scalatagsVersion,
   "com.typesafe.akka" %% "akka-http-core" % akkaHttpVersion,
   "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
-  "com.yahoo.platform.yui" % "yuicompressor" % yuiCompressorVersion
+  "com.yahoo.platform.yui" % "yuicompressor" % yuiCompressorVersion,
+  "org.apache.commons" % "commons-lang3" % apacheCommonsVersion
 )
 
 mainClass := Some("longshore.info.site.Main")
