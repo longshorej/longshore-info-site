@@ -11,7 +11,6 @@ def bootstrap():
     run("apt-get -y install openjdk-8-jre-headless screen vim")
 
 def deploy(path):
-    project.rsync_project("~/longshore-info-site", path, delete=True)
-    run("chmod +x ~/longshore-info-site/pack/bin/main")
-    run("screen -S longshore-info-site -X quit || true")
-    run("screen -dm -S longshore-info-site ~/longshore-info-site/pack/bin/main 80")
+    project.rsync_project("~/longshore-info-site.deb", path, delete=True)
+    run("dpkg -i ~/longshore-info-site.deb")
+    run("iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080")

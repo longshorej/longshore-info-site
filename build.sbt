@@ -1,25 +1,26 @@
-name := "longshore.info site"
+import com.decodified.scalassh.SSH
 
-version := "1.0"
+enablePlugins(GitVersioning, JavaServerAppPackaging, SystemdPlugin)
+
+name := "longshore-info-site"
+
+maintainer := "Jason Longshore <longshorej@gmail.com>"
+
+requiredStartFacilities in Debian := Some("network.target")
 
 scalaVersion := "2.11.8"
 
 organization := "info.longshore"
 
-val akkaHttpVersion = "3.0.0-RC1"
-
-val apacheCommonsVersion = "3.4"
-
-val scalatagsVersion = "0.6.0"
-
-val yuiCompressorVersion = "2.4.8"
+git.baseVersion := "1.0"
 
 libraryDependencies ++= Vector(
-  "com.lihaoyi" %% "scalatags" % scalatagsVersion,
-  "com.typesafe.akka" %% "akka-http-core" % akkaHttpVersion,
-  "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
-  "com.yahoo.platform.yui" % "yuicompressor" % yuiCompressorVersion,
-  "org.apache.commons" % "commons-lang3" % apacheCommonsVersion
+  "com.lihaoyi"            %% "scalatags"      % "0.6.0",
+  "com.typesafe.akka"      %% "akka-http-core" % "10.0.0",
+  "com.typesafe.akka"      %% "akka-http"      % "10.0.0",
+  "com.yahoo.platform.yui"  % "yuicompressor"  % "2.4.8",
+  "org.apache.commons"      % "commons-lang3"  % "3.4",
+  "org.slf4j"               % "slf4j-simple"   % "1.7.21"
 )
 
 mainClass := Some("longshore.info.site.Main")
@@ -44,22 +45,22 @@ scalacOptions ++= Vector(
   "-unchecked"
 )
 
-packAutoSettings
-
 lazy val bootstrap = TaskKey[Unit]("bootstrap", "Bootstraps the server")
 
 lazy val deploy = TaskKey[Unit]("deploy", "Deploys this site")
 
-bootstrap := {
-  Process("fab" :: "-k" :: "-f" :: "script/fabfile.py" :: "bootstrap" :: Nil) !
+def runProcess(args: String*) = {
+  val code = Process(args) !
+
+  assert(code == 0, s"${args.mkString(" ")} failed with: $code")
 }
+
+bootstrap := runProcess("fab", "-k", "-f", "script/fabfile.py", "bootstrap")
 
 deploy <<= Def.taskDyn {
   for {
     _ <-  clean   in Compile
     a <- (compile in Compile).taskValue
-    p <- (pack    in Compile).taskValue
-  } yield {
-    Process("fab" :: "-k" :: "-f" :: "script/fabfile.py" :: "deploy:" + p.getAbsolutePath :: Nil) !
-  }
+    d <- (packageBin in Debian).taskValue
+  } yield runProcess("fab", "-k", "-f", "script/fabfile.py", s"deploy:${d.getAbsolutePath}")
 }
