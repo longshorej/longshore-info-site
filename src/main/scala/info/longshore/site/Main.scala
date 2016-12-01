@@ -20,13 +20,11 @@ object Main {
 
     val home = System.getProperty("user.home")
 
-    assert(home != null && home != "")
+    assert(home != null && home != "", "user.home must be defined")
 
     val files = new File(
       home + File.separator + ".info" + File.separator + "longshore" + "site" + File.separator + "files"
     )
-
-    assert(files.isDirectory || files.mkdirs())
 
     val route =
       pathEndOrSingleSlash {
@@ -39,6 +37,7 @@ object Main {
       }
 
     println("Starting server on port: " + port)
+    println("Serving files from: " + files.getAbsolutePath)
 
     val future = Http().bindAndHandle(route, "0.0.0.0", port)
 
