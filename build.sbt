@@ -8,14 +8,14 @@ maintainer := "Jason Longshore <longshorej@gmail.com>"
 
 requiredStartFacilities in Debian := Some("network.target")
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.1"
 
 organization := "info.longshore"
 
 git.baseVersion := "1.0"
 
 libraryDependencies ++= Vector(
-  "com.lihaoyi"            %% "scalatags"      % "0.6.0",
+  "com.lihaoyi"            %% "scalatags"      % "0.6.2",
   "com.typesafe.akka"      %% "akka-http-core" % "10.0.0",
   "com.typesafe.akka"      %% "akka-http"      % "10.0.0",
   "com.yahoo.platform.yui"  % "yuicompressor"  % "2.4.8",
